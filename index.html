@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Countdown to Sabbatical</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+    :root {
+      --primary-color: #ffffff;
+      --accent-color: #3498db;
+      --text-color: #000000;
+    }
+
+    body {
+      background: var(--primary-color);
+      color: var(--text-color);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      text-align: center;
+      margin-bottom: 50px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .countdown {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 1200px;
+    }
+
+    .time-unit {
+      width: 120px;
+      text-align: center;
+      margin: 10px;
+    }
+
+    .number {
+      font-size: 4rem;
+      font-weight: 600;
+      line-height: 1;
+      padding: 20px 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .label {
+      font-size: 1rem;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .time-unit {
+        width: 90px;
+      }
+
+      .number {
+        font-size: 3rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .time-unit {
+        width: 70px;
+      }
+
+      .number {
+        font-size: 2.5rem;
+      }
+
+      .label {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Time Until Sabbatical</h1>
+  <div class="countdown">
+    <div class="time-unit">
+      <div class="number" id="weeks">00</div>
+      <div class="label">Weeks</div>
+    </div>
+    <div class="time-unit">
+      <div class="number" id="days">00</div>
+      <div class="label">Days</div>
+    </div>
+    <div class="time-unit">
+      <div class="number" id="hours">00</div>
+      <div class="label">Hours</div>
+    </div>
+    <div class="time-unit">
+      <div class="number" id="minutes">00</div>
+      <div class="label">Minutes</div>
+    </div>
+    <div class="time-unit">
+      <div class="number" id="seconds">00</div>
+      <div class="label">Seconds</div>
+    </div>
+  </div>
+
+  <script>
+    function getTargetDate() {
+      const now = new Date();
+      let year = now.getFullYear();
+      let target = new Date(year, 5, 7); // June 7th
+      if (now > target) {
+        target = new Date(year + 1, 5, 7);
+      }
+      return target;
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const target = getTargetDate();
+      let diff = Math.floor((target - now) / 1000);
+
+      const weeks = Math.floor(diff / (7 * 24 * 60 * 60));
+      diff -= weeks * 7 * 24 * 60 * 60;
+      const days = Math.floor(diff / (24 * 60 * 60));
+      diff -= days * 24 * 60 * 60;
+      const hours = Math.floor(diff / (60 * 60));
+      diff -= hours * 60 * 60;
+      const minutes = Math.floor(diff / 60);
+      const seconds = diff - minutes * 60;
+
+      document.getElementById('weeks').textContent = String(weeks).padStart(2, '0');
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
